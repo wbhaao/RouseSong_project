@@ -5,12 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/createSong.css">
 </head>
 <body>
     <form action="/create_song_process" method="post">
-        song_name : <input required type = "text" name="song_name"><br/>
-        artist_name : <input required type = "text" name="artist_name"><br/>
-        youtube_link: <input required type = "text" name="youtube_link"><br/>
+        <p>song_name</p>
+        <input required type = "text" name="song_name"><br/>
+        <p>artist_name</p>
+        <input required type = "text" name="artist_name"><br/>
+        <p>youtube_link</p>
+        <p>https://www.youtube.com/watch?v=[고유번호] 형식</p>
+        <input required type = "text" name="youtube_link"><br/>
         <input type = "submit" value="submit">
     </form>
 </body>

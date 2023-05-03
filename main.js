@@ -8,7 +8,6 @@ app.use(express.static('public'))
 app.use('/static', express.static('C:/Users/Administrator/OneDrive/문서/test/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-var comp = '';
 
 app.get('/', function(req,res) {
   // fs.writeFile(`test.html`, '', 'utf8', function(err){
@@ -21,8 +20,9 @@ app.get('/', function(req,res) {
           <title>asdsadsad</title>
           <script src="https://use.fontawesome.com/releases/v6.4.0/js/all.js"></script>
           <link rel="stylesheet" href="css/reset.css">
-          <link rel="stylesheet" href="css/a.css">
-      </head>
+          <link rel="stylesheet" href="css/index.css">
+          <script src="public/js/link.js"></script>
+          </head>
       <body>
           <div id="sidebar">
               <button><i class="fa-solid fa-check-to-slot icon fa-lg"></i>ㅤ노래 투표</button>
@@ -51,17 +51,46 @@ app.get('/', function(req,res) {
       console.log(data.song_name)
       console.log(data.artist_name)
       console.log('ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ')
+      console.log(data.youtube_link.indexOf('=')+1)
+      console.log(data.youtube_link.substr(data.youtube_link.indexOf('&')))
+      console.log(data.youtube_link.length)
+      console.log("asd:"+data.youtube_link.substr(
+        data.youtube_link.indexOf('=')+1, 
+        (data.youtube_link.substr(data.youtube_link.indexOf('&')))==-1
+        ?data.youtube_link.length:
+        (data.youtube_link.substr(data.youtube_link.indexOf('&')))))
+
       music_arr[i] = `
       <div id="music-box">
-        <img id="song-profile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3UBYNoWdypJJotOReLUIC_5rjcjrZ1l2kLw&usqp=CAU" alt="">
+        <img id="song-profile" src="
+        https://img.youtube.com/vi/${
+          data.youtube_link.substr(
+            data.youtube_link.indexOf('=')+1, 
+            (data.youtube_link.substr(data.youtube_link.indexOf('&')))==-1
+            ?data.youtube_link.length:
+            (data.youtube_link.substr(data.youtube_link.indexOf('&'))))
+          }/maxresdefault.jpg" alt="">
         <div id="artist-info">
             <div id="song-name">${data.song_name}</div>
             <div id="artist-name">${data.artist_name}</div>
         </div>
         <div id="button-group">
-            <button id="play-stop-button"></button>
-            <button id="reset-button"></button>
-            <button id="vote-button"></button>
+          <div class="audio-player">
+            <div id="player"></div>
+            <div class="controls">
+              <button id="play-button">Play</button>
+              <button id="pause-button">Pause</button>
+              <div id="progress-bar">
+                <div id="progress"></div>
+              </div>
+          </div>
+        </div>
+          <form action="/play_song" method="post">
+            <input type="hidden" name="link" value="${data.youtube_link}">
+            <input id="play-stop-button" type="submit"></input>
+          </form>
+          <button id="reset-button"></button>
+          <button id="vote-button"></button>
         </div>
       </div>
       `
@@ -87,6 +116,10 @@ app.post('/create_song_process', function(req,res) {
       json, 'utf8', function(err){
   });
   res.redirect('/')
+})
+
+app.post('/play_song', function(req, res) {
+  req.body.link
 })
 
 app.listen(port, () => {

@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'SUIT-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body, form{
+    width: 100%;
+    height: 100%;
+}
+form{
+    text-align: center;
+}
+p, input{
+    font-family: 'SUIT-Regular';
+    display: block;
+    margin: 0 auto;
+}
+
+input{
+    width: 220px;
+    height: 40px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    font-size: 24px;
+}
