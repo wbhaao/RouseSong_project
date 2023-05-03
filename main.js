@@ -8,6 +8,7 @@ app.use(express.static('public'))
 app.use('/static', express.static('C:/Users/Administrator/OneDrive/문서/test/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
+fs.writeFileSync('public/playmusic', '')
 
 app.get('/', function(req,res) {
   // fs.writeFile(`test.html`, '', 'utf8', function(err){
@@ -24,6 +25,11 @@ app.get('/', function(req,res) {
           <script src="public/js/link.js"></script>
           </head>
       <body>
+      <iframe style="display:none" width="560" height="315" 
+      src="https://www.youtube.com/embed/${fs.readFileSync('public/playmusic', 'utf8')}?autoplay=1" 
+      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+      </iframe>
+          
           <div id="sidebar">
               <button><i class="fa-solid fa-check-to-slot icon fa-lg"></i>ㅤ노래 투표</button>
               <button><i class="fa-solid fa-thumbs-up icon fa-lg"></i>ㅤ노래 추천</button>
@@ -31,12 +37,10 @@ app.get('/', function(req,res) {
               
               <button class="bottom_icon fa-lg"><i class="fa-solid fa-circle-info icon fa-lg"></i>ㅤ내 정보</button>
               <button><i class="fa-solid fa-gear icon fa-lg"></i>ㅤ설정</button>
+              <button id="icon-down"><i class="fa-solid fa-gear icon fa-lg"></i>ㅤ로그인</button>
           </div>
           
           <div id="contents">
-              <div id="state">
-                  현재 페이지
-              </div>
               <form action="/create_song">
                   <input type="submit" value="글쓰기" id="write-button">
               </form>
@@ -45,8 +49,6 @@ app.get('/', function(req,res) {
     filelist = fs.readdirSync('public/base')
     for (let i = 0; i < filelist.length; i++) {
       data = JSON.parse(fs.readFileSync(`public/base/${filelist[i]}`, 'utf-8'))
-      console.log(data.youtube_link.indexOf('&'))
-      console.log(data.youtube_link.indexOf('=')+1)
 
       music_arr[i] = `
       <div id="music-box">
@@ -58,22 +60,18 @@ app.get('/', function(req,res) {
             <div id="artist-name">${data.artist_name}</div>
         </div>
         <div id="button-group">
-          <div class="audio-player">
-            <div id="player"></div>
-            <div class="controls">
-              <button id="play-button">Play</button>
-              <button id="pause-button">Pause</button>
-              <div id="progress-bar">
-                <div id="progress"></div>
-              </div>
-          </div>
-        </div>
-          <form action="/play_song" method="post">
-            <input type="hidden" name="link" value="${data.youtube_link}">
-            <input id="play-stop-button" type="submit"></input>
+          <form style="display:inline-block" action="/play_song" method="post">
+            <input type="hidden" name="link" value="${data.youtube_link.substring((data.youtube_link.indexOf('=')+1), data.youtube_link.indexOf("&")==-1?data.youtube_link.length:data.youtube_link.indexOf("&"))}">
+            <input id="play-stop-button" type="submit">
           </form>
-          <button id="reset-button"></button>
-          <button id="vote-button"></button>
+          <form style="display:inline-block" action="/play_song" method="post">
+            <input type="hidden" name="link" value="">
+            <input id="play-stop-button" type="submit">
+          </form>
+          <form style="display:inline-block" action="/play_song" method="post">
+            <input type="hidden" name="vote" value="">
+            <input id="vote-button" type="submit">
+          </form>
         </div>
       </div>
       `
@@ -100,7 +98,9 @@ app.post('/create_song_process', function(req,res) {
 })
 
 app.post('/play_song', function(req, res) {
-  req.body.link
+  
+  fs.writeFileSync('public/playmusic', req.body.link)
+  res.redirect('/')
 })
 
 app.listen(port, () => {
