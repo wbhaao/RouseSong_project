@@ -2,15 +2,19 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const fs = require("fs");
 const app = express()
-const port = 1234
+const port = 8082
 const absolute_root = "C:/Users/Administrator/OneDrive/문서/test"
 app.use(express.static('public'))
 app.use('/static', express.static('C:/Users/Administrator/OneDrive/문서/test/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
+var comp = '';
 
-function set_ss() {
-  let comp = `
+app.get('/', function(req,res) {
+  // fs.writeFile(`test.html`, '', 'utf8', function(err){
+  // })
+  var music_arr = [];
+  let headHTML = `
     <!doctype html>
     <html>
       <head>
@@ -36,47 +40,53 @@ function set_ss() {
               <form action="/create_song">
                   <input type="submit" value="글쓰기" id="write-button">
               </form>
-      <div id="music-box">
+              
       `
-    fs.readdir('public/base', function(error, filelist){
-      console.log(filelist)
-      for (let i = 0; i < filelist.length; i++) {
-        comp += `\
+    filelist = fs.readdirSync('public/base')
+    console.log(filelist)
+    for (let i = 0; i < filelist.length; i++) {
+      data = JSON.parse(fs.readFileSync(`public/base/${filelist[i]}`, 'utf-8'))
+      console.log('ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ')
+      console.log(data)
+      console.log(data.song_name)
+      console.log(data.artist_name)
+      console.log('ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ')
+      music_arr[i] = `
+      <div id="music-box">
         <img id="song-profile" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3UBYNoWdypJJotOReLUIC_5rjcjrZ1l2kLw&usqp=CAU" alt="">
         <div id="artist-info">
-            <div id="song-sca">${filelist[i].song_name}</div>
-            <div id="artist-name">${filelist[i].artist_name}</div>
+            <div id="song-name">${data.song_name}</div>
+            <div id="artist-name">${data.artist_name}</div>
         </div>
         <div id="button-group">
             <button id="play-stop-button"></button>
             <button id="reset-button"></button>
             <button id="vote-button"></button>
-        </div>`
-      }
-      comp += `</div></div></body></html>`
-    })
-    console.log(comp)
-    return comp
-}
-
-app.get('/', function(req,res) {
-  res.send(comp)
+        </div>
+      </div>
+      `
+    }
+    tail = `</div></body></html>`
+    console.log(headHTML+music_arr.join('')+tail)
+    res.send(headHTML+music_arr.join('')+tail)
 })
+
+
+
 app.get('/create_song', function(req,res) {
   res.sendFile(absolute_root+"/public/createSong.html")
 })
 app.post('/create_song_process', function(req,res) {
   let student = {
-    name: `${req.body.song_name}`,
-    age: `${req.body.artist_name}`,
-    isAdmin: `${req.body.youtube_link}`,
+    song_name: `${req.body.song_name}`,
+    artist_name: `${req.body.artist_name}`,
+    youtube_link: `${req.body.youtube_link}`,
   };
   let json = JSON.stringify(student);
   fs.writeFile(`public/base/${req.body.song_name}123.json`, 
       json, 'utf8', function(err){
   });
-  res.writeHead(302, {Location: `/`});
-  res.end();
+  res.redirect('/')
 })
 
 app.listen(port, () => {
