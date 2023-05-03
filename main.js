@@ -43,33 +43,16 @@ app.get('/', function(req,res) {
               
       `
     filelist = fs.readdirSync('public/base')
-    console.log(filelist)
     for (let i = 0; i < filelist.length; i++) {
       data = JSON.parse(fs.readFileSync(`public/base/${filelist[i]}`, 'utf-8'))
-      console.log('ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ')
-      console.log(data)
-      console.log(data.song_name)
-      console.log(data.artist_name)
-      console.log('ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ')
+      console.log(data.youtube_link.indexOf('&'))
       console.log(data.youtube_link.indexOf('=')+1)
-      console.log(data.youtube_link.substr(data.youtube_link.indexOf('&')))
-      console.log(data.youtube_link.length)
-      console.log("asd:"+data.youtube_link.substr(
-        data.youtube_link.indexOf('=')+1, 
-        (data.youtube_link.substr(data.youtube_link.indexOf('&')))==-1
-        ?data.youtube_link.length:
-        (data.youtube_link.substr(data.youtube_link.indexOf('&')))))
 
       music_arr[i] = `
       <div id="music-box">
         <img id="song-profile" src="
         https://img.youtube.com/vi/${
-          data.youtube_link.substr(
-            data.youtube_link.indexOf('=')+1, 
-            (data.youtube_link.substr(data.youtube_link.indexOf('&')))==-1
-            ?data.youtube_link.length:
-            (data.youtube_link.substr(data.youtube_link.indexOf('&'))))
-          }/maxresdefault.jpg" alt="">
+          data.youtube_link.substring((data.youtube_link.indexOf('=')+1), data.youtube_link.indexOf("&")==-1?data.youtube_link.length:data.youtube_link.indexOf("&"))}/maxresdefault.jpg" alt="">
         <div id="artist-info">
             <div id="song-name">${data.song_name}</div>
             <div id="artist-name">${data.artist_name}</div>
@@ -96,7 +79,6 @@ app.get('/', function(req,res) {
       `
     }
     tail = `</div></body></html>`
-    console.log(headHTML+music_arr.join('')+tail)
     res.send(headHTML+music_arr.join('')+tail)
 })
 
@@ -112,9 +94,8 @@ app.post('/create_song_process', function(req,res) {
     youtube_link: `${req.body.youtube_link}`,
   };
   let json = JSON.stringify(student);
-  fs.writeFile(`public/base/${req.body.song_name}123.json`, 
-      json, 'utf8', function(err){
-  });
+  fs.writeFileSync(`public/base/${req.body.song_name}123.json`, 
+      json, 'utf8')
   res.redirect('/')
 })
 
