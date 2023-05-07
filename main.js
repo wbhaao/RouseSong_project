@@ -15,13 +15,14 @@ fs.writeFileSync('public/playmusic', '')
 app.get('/', function(req,res) {
   // fs.writeFile(`test.html`, '', 'utf8', function(err){
   // })
-  console.log("myID:"+myID)
   var music_arr = [];
-  let headHTML = `
+  let headHTML = 
+  
+  `
     <!doctype html>
     <html>
       <head>
-          <title>asdsadsad</title>
+          <title>RouseProject</title>
           <script src="https://use.fontawesome.com/releases/v6.4.0/js/all.js"></script>
           <link rel="stylesheet" href="css/reset.css">
           <link rel="stylesheet" href="css/index.css">
@@ -32,7 +33,6 @@ app.get('/', function(req,res) {
       src="https://www.youtube.com/embed/${fs.readFileSync('public/playmusic', 'utf8')}?autoplay=1" 
       title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
       </iframe>
-          
           <div id="sidebar">
               <button><i class="fa-solid fa-check-to-slot icon fa-lg"></i>ㅤ노래 투표</button>
               <button><i class="fa-solid fa-thumbs-up icon fa-lg"></i>ㅤ추천한 노래</button>
@@ -59,8 +59,9 @@ app.get('/', function(req,res) {
               </form>
               
       `
+
+
     data = JSON.parse(fs.readFileSync(`public/base/songList.json`, 'utf-8'))
-    console.log(Object.keys(data.song_list).length)
     let i = 0;
     for (i = 0; i < Object.keys(data.song_list).length; i++) {
       let regular_link = data.song_list[i].youtube_link.substring((data.song_list[i].youtube_link.indexOf('=')+1), data.song_list[i].youtube_link.indexOf("&")==-1?data.song_list[i].youtube_link.length:data.song_list[i].youtube_link.indexOf("&"))
@@ -72,6 +73,7 @@ app.get('/', function(req,res) {
         <div id="artist-info">
             <div id="song-name">${data.song_list[i].song_name}</div>
             <div id="artist-name">${data.song_list[i].artist_name}</div>
+            <span id="artist-name">${data.song_list[i].vote_user_list.length}</span>
         </div>
         <div id="button-group">
           <form style="display:inline-block" action="/play_song" method="post">
@@ -89,6 +91,8 @@ app.get('/', function(req,res) {
         </div>
       </div>
       `
+
+      
     }
     tail = `</div></body></html>`
     res.send(headHTML+music_arr.join('')+tail)
@@ -104,10 +108,8 @@ app.post('/create_song_process', function(req,res) {
     song_name: `${req.body.song_name}`,
     artist_name: `${req.body.artist_name}`,
     youtube_link: `${req.body.youtube_link}`,
-    vote_user_list:``
+    vote_user_list: []
   };
-  console.log("a:"+typeof student)
-  console.log("a:"+typeof json)
   data = JSON.parse(fs.readFileSync(`public/base/songList.json`, 'utf-8'))
   data.song_list[Object.keys(data.song_list).length] = student;
   fs.writeFile('public/base/songList.json', JSON.stringify(data), (err)=>{ //수정된 JSON 을 파일에 적어주기
@@ -134,8 +136,6 @@ app.post('/signin_process', function(req, res) {
   data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
   // 아이디 중복 검사
   for (var i = 0; i < Object.keys(data.user_list).length; i++){
-    console.log(`${data.user_list[i].id}, ${req.body.id}`)
-    console.log(`${data.user_list[i].password}, ${req.body.password}`)
     if (data.user_list[i].id == req.body.id && 
         data.user_list[i].password == req.body.password){
           isSignin = true;
@@ -160,7 +160,6 @@ app.post('/signup_process', function(req, res) {
   data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
   // 아이디 중복 검사
   for (var i = 0; i < Object.keys(data.user_list).length; i++){
-    console.log(`${data.user_list[i].id}, ${req.body.id}`)
     if (data.user_list[i].id == req.body.id){
       res.redirect('/signup')
       return
@@ -176,14 +175,15 @@ app.post('/signup_process', function(req, res) {
 app.post('/vote_process', function(req, res) {
   if (isSignin) {
     data = JSON.parse(fs.readFileSync(`public/base/songList.json`, 'utf-8'))
-    if (myID) {
-      let len = data.song_list[req.body.vote_i].vote_user_list.length
-      for (let i = 0; i < len; i++) {
-        if (data.song_list[req.body.vote_i].vote_user_list[i].user_name == myID){
-          
-        }
+    let len = data.song_list[req.body.vote_i].vote_user_list.length
+    console.log("len:"+data.song_list[req.body.vote_i].vote_user_list.length)
+    for (let i = 0; i < len; i++) {
+      if (data.song_list[req.body.vote_i].vote_user_list[i].user_name == myID){
+        res.redirect('/')
+        return;
       }
     }
+    console.log(typeof data.song_list[req.body.vote_i].vote_user_list)
     data.song_list[req.body.vote_i].vote_user_list.push({user_name:`${myID}`});
     fs.writeFile('public/base/songList.json', JSON.stringify(data), (err)=>{ 
       if (err) throw err;
@@ -192,7 +192,9 @@ app.post('/vote_process', function(req, res) {
       return;
     });
   }
-  res.send("b:"+req.body.vote_i)
+  else{
+    res.redirect('/signin')
+  }
 })
 
 app.listen(port, () => {
