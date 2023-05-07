@@ -1,0 +1,25 @@
+{
+    "user_list": [
+        {
+            "id": "gumin1l",
+            "password": "1234",
+            "grade": "1",
+            "class": "3",
+            "number": "2"
+        },
+        {
+            "id": "a31620504",
+            "password": "1234",
+            "grade": "3",
+            "class": "2",
+            "number": "1"
+        },
+        {
+            "id": "aaa",
+            "password": "bbb",
+            "grade": "1",
+            "class": "1",
+            "number": "1"
+        }
+    ]
+}

@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 const app = express()
 const port = 8082
-const absolute_root = "C:/Users/Administrator/OneDrive/문서/test"
+let isSignin = false;
+let myID = '';
 app.use(express.static('public'))
 
 app.use('/static', express.static('C:/Users/Administrator/OneDrive/문서/test/public'));
@@ -14,6 +15,7 @@ fs.writeFileSync('public/playmusic', '')
 app.get('/', function(req,res) {
   // fs.writeFile(`test.html`, '', 'utf8', function(err){
   // })
+  console.log("myID:"+myID)
   var music_arr = [];
   let headHTML = `
     <!doctype html>
@@ -36,14 +38,18 @@ app.get('/', function(req,res) {
               <button><i class="fa-solid fa-thumbs-up icon fa-lg"></i>ㅤ추천한 노래</button>
               <button><i class="fa-solid fa-mask icon fa-lg"></i></i>ㅤ커뮤니티</button>
               
-              <button class="bottom_icon fa-lg"><i class="fa-solid fa-circle-info icon fa-lg"></i>ㅤ내 정보</button>
+              <button class="bottom_icon fa-lg"><i class="fa-solid fa-circle-info icon fa-lg"></i>ㅤ${isSignin?`${myID}`:`내 정보`}</button>
               <button><i class="fa-solid fa-gear icon fa-lg"></i>ㅤ설정</button>
-              <form action="/signin" method="get">
+              ${isSignin?
+              `<form action="/signup" method="get">
+                <input type="submit" value="회원가입" id="signup-button">
+              </form>`:
+              `<form action="/signin" method="get">
                 <input type="submit" value="로그인" id="signin-button">
               </form>
               <form action="/signup" method="get">
                 <input type="submit" value="회원가입" id="signup-button">
-              </form>
+              </form>`}
             </div>
           
           <div id="contents">
@@ -54,7 +60,8 @@ app.get('/', function(req,res) {
       `
     data = JSON.parse(fs.readFileSync(`public/base/songList.json`, 'utf-8'))
     console.log(Object.keys(data.song_list).length)
-    for (let i = 0; i < Object.keys(data.song_list).length; i++) {
+    let i = 0;
+    for (i = 0; i < Object.keys(data.song_list).length; i++) {
       console.log(i)
       let regular_link = data.song_list[i].youtube_link.substring((data.song_list[i].youtube_link.indexOf('=')+1), data.song_list[i].youtube_link.indexOf("&")==-1?data.song_list[i].youtube_link.length:data.song_list[i].youtube_link.indexOf("&"))
       music_arr[i] = `
@@ -120,6 +127,49 @@ app.get('/signin', function(req, res) {
 
 app.get('/signup', function(req, res) {
   res.sendFile(__dirname+'/public/signup.html')
+})
+
+app.post('/signin_process', function(req, res) {
+  data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
+  // 아이디 중복 검사
+  for (var i = 0; i < Object.keys(data.user_list).length; i++){
+    console.log(`${data.user_list[i].id}, ${req.body.id}`)
+    console.log(`${data.user_list[i].password}, ${req.body.password}`)
+    if (data.user_list[i].id == req.body.id && 
+        data.user_list[i].password == req.body.password){
+          isSignin = true;
+          myID = req.body.id
+          res.redirect('/')
+      return
+    }
+  }
+  res.redirect('/signin')
+})
+
+app.post('/signup_process', function(req, res) {
+  // 아이디 조건 : 중복 없이
+  // 비번 조건 : 반복 X, 숫자만 X, 8글자 이상,
+  let student = {
+    id: `${req.body.id}`,
+    password: `${req.body.password}`,
+    grade: `${req.body.grade}`,
+    class: `${req.body.class}`,
+    number: `${req.body.number}`
+  };
+  data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
+  // 아이디 중복 검사
+  for (var i = 0; i < Object.keys(data.user_list).length; i++){
+    console.log(`${data.user_list[i].id}, ${req.body.id}`)
+    if (data.user_list[i].id == req.body.id){
+      res.redirect('/signup')
+      return
+    }
+  }
+  data.user_list[Object.keys(data.user_list).length] = student;
+  fs.writeFile('public/base/user.json', JSON.stringify(data), (err)=>{ //수정된 JSON 을 파일에 적어주기
+    if (err) throw err;
+  });
+  res.redirect('/signin')
 })
 
 app.listen(port, () => {
