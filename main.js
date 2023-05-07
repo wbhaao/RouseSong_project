@@ -41,15 +41,16 @@ app.get('/', function(req,res) {
               <button class="bottom_icon fa-lg"><i class="fa-solid fa-circle-info icon fa-lg"></i>ㅤ${isSignin?`${myID}`:`내 정보`}</button>
               <button><i class="fa-solid fa-gear icon fa-lg"></i>ㅤ설정</button>
               ${isSignin?
-              `<form action="/signup" method="get">
-                <input type="submit" value="회원가입" id="signup-button">
-              </form>`:
-              `<form action="/signin" method="get">
-                <input type="submit" value="로그인" id="signin-button">
-              </form>
-              <form action="/signup" method="get">
-                <input type="submit" value="회원가입" id="signup-button">
-              </form>`}
+                `<form action="/signup" method="get">
+                  <input type="submit" value="회원가입" id="signup-button">
+                </form>`:
+                `<form action="/signin" method="get">
+                  <input type="submit" value="로그인" id="signin-button">
+                </form>
+                <form action="/signup" method="get">
+                  <input type="submit" value="회원가입" id="signup-button">
+                </form>`
+              }
             </div>
           
           <div id="contents">
