@@ -1,49 +1,10 @@
 {
     "song_list": [
         {
-            "song_name": "OMG",
-            "artist_name": "뉴진스",
-            "youtube_link": "https://www.youtube.com/watch?v=7b2Nbr34BW4&ab_channel=%EC%8A%A4%EB%B8%8C%EC%8A%A4%EC%BC%80%EC%9D%B4%ED%8C%9DXINKIGAYO"
-        },
-        {
-            "song_name": "사랑이라 어쩌구",
-            "artist_name": "빅나뤼",
-            "youtube_link": "https://www.youtube.com/watch?v=PuopphRmNqU&ab_channel=%EC%95%8C%ED%8C%8C"
-        },
-        {
-            "song_name": "I AM",
-            "artist_name": "아이",
-            "youtube_link": "https://www.youtube.com/watch?v=6ZUIwj3FgUY&ab_channel=starshipTV"
-        },
-        {
             "song_name": "Vancouver",
             "artist_name": "서동현",
-            "youtube_link": "https://www.youtube.com/watch?v=RwukI7v0Hpc"
-        },
-        {
-            "song_name": "Vancouver",
-            "artist_name": "서동현",
-            "youtube_link": "https://www.youtube.com/watch?v=RwukI7v0Hpc"
-        },
-        {
-            "song_name": "Night Dancer",
-            "artist_name": "imase",
-            "youtube_link": "https://www.youtube.com/watch?v=FUcekBiR1aU"
-        },
-        {
-            "song_name": "Vancouver",
-            "artist_name": "서동현",
-            "youtube_link": "https://www.youtube.com/watch?v=RwukI7v0Hpc"
-        },
-        {
-            "song_name": "Vancouver",
-            "artist_name": "서동현",
-            "youtube_link": "https://www.youtube.com/watch?v=jy8eGRwI9h8"
-        },
-        {
-            "song_name": "사랑하긴했었나요스쳐가는인연",
-            "artist_name": "잔나",
-            "youtube_link": "https://www.youtube.com/watch?v=ElQS9l6CvEo"
+            "youtube_link": "https://www.youtube.com/watch?v=jy8eGRwI9h8",
+            "vote_user_list": ""
         }
     ]
 }

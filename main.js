@@ -63,7 +63,6 @@ app.get('/', function(req,res) {
     console.log(Object.keys(data.song_list).length)
     let i = 0;
     for (i = 0; i < Object.keys(data.song_list).length; i++) {
-      console.log(i)
       let regular_link = data.song_list[i].youtube_link.substring((data.song_list[i].youtube_link.indexOf('=')+1), data.song_list[i].youtube_link.indexOf("&")==-1?data.song_list[i].youtube_link.length:data.song_list[i].youtube_link.indexOf("&"))
       music_arr[i] = `
       <div id="music-box">
@@ -83,8 +82,8 @@ app.get('/', function(req,res) {
             <input type="hidden" name="link" value="">
             <input id="play-stop-button" type="submit">
           </form>
-          <form style="display:inline-block" action="/play_song" method="post">
-            <input type="hidden" name="vote" value="">
+          <form style="display:inline-block" action="/vote_process" method="post">
+            <input type="hidden" name="vote_i" value="${i}">
             <input id="vote-button" type="submit">
           </form>
         </div>
@@ -105,6 +104,7 @@ app.post('/create_song_process', function(req,res) {
     song_name: `${req.body.song_name}`,
     artist_name: `${req.body.artist_name}`,
     youtube_link: `${req.body.youtube_link}`,
+    vote_user_list:``
   };
   console.log("a:"+typeof student)
   console.log("a:"+typeof json)
@@ -171,6 +171,28 @@ app.post('/signup_process', function(req, res) {
     if (err) throw err;
   });
   res.redirect('/signin')
+})
+
+app.post('/vote_process', function(req, res) {
+  if (isSignin) {
+    data = JSON.parse(fs.readFileSync(`public/base/songList.json`, 'utf-8'))
+    if (myID) {
+      let len = data.song_list[req.body.vote_i].vote_user_list.length
+      for (let i = 0; i < len; i++) {
+        if (data.song_list[req.body.vote_i].vote_user_list[i].user_name == myID){
+          
+        }
+      }
+    }
+    data.song_list[req.body.vote_i].vote_user_list.push({user_name:`${myID}`});
+    fs.writeFile('public/base/songList.json', JSON.stringify(data), (err)=>{ 
+      if (err) throw err;
+      fs.writeFileSync('public/playmusic', '')
+      res.redirect('/')
+      return;
+    });
+  }
+  res.send("b:"+req.body.vote_i)
 })
 
 app.listen(port, () => {
