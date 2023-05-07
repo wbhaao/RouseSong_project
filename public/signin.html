@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/createSong.css">
+</head>
+<body>
+    <form action="/create_song_process" method="post">
+        <p>your id</p>
+        <input required maxlength='14' type = "text" name="id"><br/>
+        <p>your password</p>
+        <input required maxlength='14' type = "text" name="password"><br/>
+        <p>너 학년</p>
+        <select name="grade" id="grade-select">
+            <option value="">학년을 선택하세요</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <p>너 반</p>
+        <select name="class" id="class-select">
+            <option value="">반을 선택하세요</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <p>너 번호</p>
+        <input required maxlength='2' type = "number" name="number"><br/>
+        <input type = "submit" value="submit">
+    </form>
+</body>
+</html>
