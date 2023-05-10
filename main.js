@@ -3,14 +3,25 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 const app = express()
 const port = 8082
+
 let isSignin = false;
 let myID = '';
+let errorMessege = ''
+let address = ''
+
 app.use(express.static('public'))
 
 app.use('/static', express.static('C:/Users/Administrator/OneDrive/문서/test/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 fs.writeFileSync('public/playmusic', '')
+
+app.get('/error', function(req,res) {
+  console.log(errorMessege)
+  console.log(address)
+  // res.send(`<script>alert('');</script>`)
+  res.send(`<script>alert('${errorMessege}');location.href='${address}'</script>`)
+})
 
 app.get('/', function(req,res) {
   // fs.writeFile(`test.html`, '', 'utf8', function(err){
@@ -40,8 +51,13 @@ app.get('/', function(req,res) {
               
               <button class="bottom_icon fa-lg"><i class="fa-solid fa-circle-info icon fa-lg"></i>ㅤ${isSignin?`${myID}`:`내 정보`}</button>
               <button><i class="fa-solid fa-gear icon fa-lg"></i>ㅤ설정</button>
+              
+           
               ${isSignin?
-                `<form action="/signup" method="get">
+                `<form action="/signout" method="get">
+                  <input type="submit" value="로그아웃" id="signout-button">
+                </form>
+                <form action="/signup" method="get">
                   <input type="submit" value="회원가입" id="signup-button">
                 </form>`:
                 `<form action="/signin" method="get">
@@ -51,12 +67,14 @@ app.get('/', function(req,res) {
                   <input type="submit" value="회원가입" id="signup-button">
                 </form>`
               }
+              <form action="/create_song" method="get">
+                <input type="submit" value="글쓰기" id="signout-button">
+              </form>
+              
             </div>
           
           <div id="contents">
-              <form action="/create_song">
-                  <input type="submit" value="글쓰기" id="write-button">
-              </form>
+              
               
       `
 
@@ -73,20 +91,24 @@ app.get('/', function(req,res) {
         <div id="artist-info">
             <div id="song-name">${data.song_list[i].song_name}</div>
             <div id="artist-name">${data.song_list[i].artist_name}</div>
-            <span id="artist-name">${data.song_list[i].vote_user_list.length}</span>
+        </div>
+        <div id="vote-value">
+          <span>
+           ${data.song_list[i].vote_user_list.length}
+          </span>
         </div>
         <div id="button-group">
           <form style="display:inline-block" action="/play_song" method="post">
             <input type="hidden" name="link" value="${regular_link}">
-            <input id="play-stop-button" type="submit">
+            <input id="play-stop-button" type="submit" value="재생">
           </form>
           <form style="display:inline-block" action="/play_song" method="post">
-            <input type="hidden" name="link" value="">
-            <input id="play-stop-button" type="submit">
+            <input type="hidden" name="link" value="" >
+            <input id="play-stop-button" type="submit" value="멈춤">
           </form>
           <form style="display:inline-block" action="/vote_process" method="post">
             <input type="hidden" name="vote_i" value="${i}">
-            <input id="vote-button" type="submit">
+            <input id="vote-button" type="submit" value="투표">
           </form>
         </div>
       </div>
@@ -134,17 +156,18 @@ app.get('/signup', function(req, res) {
 
 app.post('/signin_process', function(req, res) {
   data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
-  // 아이디 중복 검사
   for (var i = 0; i < Object.keys(data.user_list).length; i++){
     if (data.user_list[i].id == req.body.id && 
         data.user_list[i].password == req.body.password){
           isSignin = true;
           myID = req.body.id
           res.redirect('/')
-      return
+          return
     }
   }
-  res.redirect('/signin')
+  errorMessege = '아이디를 찾을 수 없거나 아이디나 비밀번호가 잘못되었습니다'
+  address = 'signin'
+  res.redirect('/error')
 })
 
 app.post('/signup_process', function(req, res) {
@@ -159,9 +182,32 @@ app.post('/signup_process', function(req, res) {
   };
   data = JSON.parse(fs.readFileSync(`public/base/user.json`, 'utf-8'))
   // 아이디 중복 검사
+  console.log("aa"+Object.keys(data.user_list).length)
   for (var i = 0; i < Object.keys(data.user_list).length; i++){
     if (data.user_list[i].id == req.body.id){
       res.redirect('/signup')
+      return
+    }
+    if (data.user_list[i].grade == req.body.grade &&
+        data.user_list[i].class == req.body.class &&
+        data.user_list[i].number == req.body.number)
+    {
+      errorMessege = '중복된 학번이 있습니다'
+      address = 'signup'
+      res.redirect('/error')
+      return
+    }
+    if (data.user_list[i].id == req.body.id){
+      errorMessege = '중복된 아이디가 있습니다'
+      address = 'signup'
+      res.redirect('/error')
+      return
+    }
+    if (1 != req.body.grade ||
+        3 != req.body.class){
+      errorMessege = '너 1학년 3반 아니잖아'
+      address = 'signup'
+      res.redirect('/error')
       return
     }
   }
@@ -179,7 +225,15 @@ app.post('/vote_process', function(req, res) {
     console.log("len:"+data.song_list[req.body.vote_i].vote_user_list.length)
     for (let i = 0; i < len; i++) {
       if (data.song_list[req.body.vote_i].vote_user_list[i].user_name == myID){
-        res.redirect('/')
+        // data.song_list[req.body.vote_i].vote_user_list[i] = '';
+        fs.writeFile('public/base/songList.json', JSON.stringify(data), (err)=>{ 
+          if (err) throw err;
+          fs.writeFileSync('public/playmusic', '')
+          errorMessege = '이미 투표했습니다'
+          address = '/'
+          res.redirect('/error')
+          return;
+        });
         return;
       }
     }
@@ -193,8 +247,17 @@ app.post('/vote_process', function(req, res) {
     });
   }
   else{
-    res.redirect('/signin')
+    errorMessege = '먼저 로그인 해주세요';
+    address = 'signin';
+    res.redirect('/error')
   }
+})
+
+app.get('/signout', function(req, res) {
+  myID = ''
+  isSignin = false
+  
+  res.redirect('/')
 })
 
 app.listen(port, () => {

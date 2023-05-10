@@ -1,54 +1,5 @@
 {
     "song_list": [
-        {
-            "song_name": "Vancouver",
-            "artist_name": "서동현",
-            "youtube_link": "https://www.youtube.com/watch?v=jy8eGRwI9h8",
-            "vote_user_list": [
-             
-            ]
-        },
-        {
-            "song_name": "Night dancer",
-            "artist_name": "imase",
-            "youtube_link": "https://www.youtube.com/watch?v=FUcekBiR1aU&ab_channel=MTK%EB%AA%A8%EC%B9%B4muse",
-            "vote_user_list": [
-                
-            ]
-        },
-        {
-            "song_name": "은혼 17기 op",
-            "artist_name": "몰?루",
-            "youtube_link": "https://youtu.be/GjmHkhdanJ0",
-            "vote_user_list": [
-                
-            ]
-        },
-        {
-            "song_name": "ㅁㄴㅇ",
-            "artist_name": "ㅁㄴㅇㅁㄴㅇ",
-            "youtube_link": "https://www.youtube.com/watch?v=GjmHkhdanJ0&ab_channel=%EC%86%8C%EC%95%84%EB%A3%A8",
-            "vote_user_list": [
-               
-            ]
-        },
-        {
-            "song_name": "주저하는 연인들을 위해",
-            "artist_name": "잔나비",
-            "youtube_link": "https://www.youtube.com/watch?v=5g4KsIizYhQ&ab_channel=Hello%2CMyMusicPlayer",
-            "vote_user_list": []
-        },
-        {
-            "song_name": "I AM",
-            "artist_name": "IVE",
-            "youtube_link": "https://www.youtube.com/watch?v=6ZUIwj3FgUY&ab_channel=starshipTV",
-            "vote_user_list": []
-        },
-        {
-            "song_name": "섹스온더비치",
-            "artist_name": "몰루",
-            "youtube_link": "https://www.youtube.com/watch?v=s4H-EYdXLtI&ab_channel=DOITYOURSELF",
-            "vote_user_list": []
-        }
+    
     ]
 }

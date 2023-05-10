@@ -32,13 +32,33 @@ html, body, #container{
 #sidebar button:hover{
     background-color: rgb(145, 145, 145);
 }
-#sidebar > button:nth-child(*) > i{
-    
-    height: 150%;
-    width: 150%;
-    width: 100px;
-    height: 100px;
+#sidebar form:last-child input{
     color: white;
+    background-color: rgb(54, 145, 150);
+}
+
+#sidebar form:last-child input:hover{
+    color: white;
+    background-color: rgb(105, 199, 204);
+}
+
+#signout-button, #signin-button, #signup-button, #write-button{
+    opacity: 90%;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    background-color: black;
+    font-family: 'SUIT-Regular';
+    color: white;
+    padding: 30px 30px 30px 20px;
+    transition: 0.5s;
+    display: block;
+}
+
+#signout-button:hover, #signin-button:hover, #signup-button:hover, #write-button:hover{
+    background-color: rgb(145, 145, 145);
 }
 
 #icon-down{
@@ -46,7 +66,7 @@ html, body, #container{
 }
 
 #contents{
-    background-color: antiquewhite;
+    background-color: whie;
     height: 100%;
     width: 60%;
     clear: both; 
@@ -55,19 +75,23 @@ html, body, #container{
 
 #music-box{
     margin: 20px;
-    background-color: rgb(255, 152, 152);
+    background-color: white;
     width: 100%;
     max-width: 800px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #song-profile{
+    margin-top: 0px;
+    margin-bottom: -1.3px;
     width: 100px;
     height: 100px;
     object-fit: cover;
 }
 #artist-info{
     border: 3px red;
-    display: inline-block
+    display: inline-block;
+    position: absolute;
 }
 #song-name{
     padding: 10px 10px 0px 10px;
@@ -81,8 +105,22 @@ html, body, #container{
     font-size: 16px;
     font-weight: 600;
 }
+#vote-value{
+    width: 40px;
+    display: inline-block;
+    padding: 10px;
+    font-family: 'SUIT-Regular';
+    font-size: 30px;
+    font-weight: 600;
+    float: right;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    
+}
 #button-group{
     float: right;
+    margin-top: 20px;
 }
 #button-group form input{
     color: white;
@@ -94,11 +132,17 @@ html, body, #container{
     height: 40px;
     width: 40px;
     border: none;
-    background-color: white;
+    background-color: black;
+    color: black;
 }
+
 #reset-button:hover, #play-stop-button:hover, #vote-button:hover{
-    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    background-color: white;
+    color: black;
 }
+
+
 #state{
     text-align: center;
     width: 400px;
