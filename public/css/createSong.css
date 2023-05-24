@@ -16,6 +16,15 @@ p, input{
     display: block;
     margin: 0 auto;
 }
+#signup-btn{
+    margin: 20px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    box-shadow: none;
+    text-decoration: none;
+    color: blue;
+}
 
 input{
     width: 220px;

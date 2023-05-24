@@ -1,5 +1,1 @@
-{
-    "song_list": [
-    
-    ]
-}
+{"song_list":[{"song_name":"asd","artist_name":"asdasd","youtube_link":"asd","vote_user_list":[]},{"song_name":"Night Dancer","artist_name":"뉴진스","youtube_link":"https://www.youtube.com/watch?v=FUcekBiR1aU","vote_user_list":[],"author":"undefined","date":"2023-05-24","time":"20:08:08"},{"song_name":"Night Dancers","artist_name":"asdasd","youtube_link":"https://www.youtube.com/watch?v=jy8eGRwI9h8","vote_user_list":[],"author":"undefined","date":"2023-05-24","time":"20:14:27"},{"song_name":"asdss","artist_name":"sdasdasd","youtube_link":"https://www.youtube.com/watch?v=6ZUIwj3FgUY&ab_channel=starshipTV","vote_user_list":[],"author":"undefined","date":"2023-05-24","time":"20:22:56"},{"song_name":"123123123","artist_name":"asd","youtube_link":"https://www.youtube.com/watch?v=asZmn9ulvJM","vote_user_list":[{"user_name":"강민지2"}],"author":"강민지2","date":"2023-05-24","time":"21:27:46"}]}

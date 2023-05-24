@@ -1,156 +1,171 @@
 @font-face {
-    font-family: 'SUIT-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "SUIT-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
-html, body, #container{
-    height: 100%;
-    width: 100%;
-}
-
-#sidebar{
-    float: left;
-    background-color: rgb(0, 0, 0);
-    height: 100%;
-    width: 180px;
-}
-#sidebar button{
-    opacity: 90%;
-    text-align: left;
-    width: 100%;
-    font-size: 18px;
-    font-weight: 600;
-    border: none;
-    background-color: black;
-    font-family: 'SUIT-Regular';
-    color: white;
-    padding: 30px 30px 30px 20px;
-    transition: 0.5s;
-    display: block;
-}
-#sidebar button:hover{
-    background-color: rgb(145, 145, 145);
-}
-#sidebar form:last-child input{
-    color: white;
-    background-color: rgb(54, 145, 150);
+html,
+body,
+#container {
+  height: 100%;
+  width: 100%;
 }
 
-#sidebar form:last-child input:hover{
-    color: white;
-    background-color: rgb(105, 199, 204);
+#sidebar {
+  float: left;
+  background-color: rgb(0, 0, 0);
+  height: 100%;
+  width: 180px;
+  position: fixed;
+}
+#sidebar button,
+#sidebar form input {
+  opacity: 90%;
+  text-align: left;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  background-color: black;
+  font-family: "SUIT-Regular";
+  color: white;
+  padding: 30px 30px 30px 20px;
+  transition: 0.5s;
+  display: block;
+}
+#sidebar button:hover {
+  background-color: rgb(145, 145, 145);
+}
+#sidebar form input {
+  color: white;
+  background-color: rgb(54, 145, 150);
 }
 
-#signout-button, #signin-button, #signup-button, #write-button{
-    opacity: 90%;
-    text-align: left;
-    width: 100%;
-    font-size: 18px;
-    font-weight: 600;
-    border: none;
-    background-color: black;
-    font-family: 'SUIT-Regular';
-    color: white;
-    padding: 30px 30px 30px 20px;
-    transition: 0.5s;
-    display: block;
+#sidebar form input:hover {
+  color: white;
+  background-color: rgb(105, 199, 204);
 }
 
-#signout-button:hover, #signin-button:hover, #signup-button:hover, #write-button:hover{
-    background-color: rgb(145, 145, 145);
+#signout-button:hover,
+#signin-button:hover,
+#signup-button:hover,
+#write-button:hover {
+  background-color: rgb(145, 145, 145);
 }
 
-#icon-down{
-    margin-top: 201px;
+#icon-down {
+  margin-top: 201px;
 }
 
-#contents{
-    background-color: whie;
-    height: 100%;
-    width: 60%;
-    clear: both; 
-    display: inline-block; 
+#contents {
+  margin-left: 180px;
+  background-color: whie;
+  height: 100%;
+  width: 60%;
+  clear: both;
+  display: inline-block;
 }
 
-#music-box{
-    margin: 20px;
-    background-color: white;
-    width: 100%;
-    max-width: 800px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+#music-box {
+  margin: 20px;
+  background-color: white;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#song-profile{
-    margin-top: 0px;
-    margin-bottom: -1.3px;
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+#song-profile {
+  margin-top: 0px;
+  margin-bottom: -1.3px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
-#artist-info{
-    border: 3px red;
-    display: inline-block;
-    position: absolute;
+#artist-info {
+  border: 3px red;
+  display: inline-block;
+  position: absolute;
 }
-#song-name{
-    padding: 10px 10px 0px 10px;
-    font-family: 'SUIT-Regular';
-    font-size: 40px;
-    font-weight: bolder;
+#author-info {
+  transform: translate(9px, -8px);
+
+  font-size: 11px;
+  display: inline-block;
 }
-#artist-name{
-    padding: 10px;
-    font-family: 'SUIT-Regular';
-    font-size: 16px;
-    font-weight: 600;
+#date-info {
+  transform: translate(140px, -7px);
+  font-size: 11px;
+  display: inline-block;
 }
-#vote-value{
-    width: 40px;
-    display: inline-block;
-    padding: 10px;
-    font-family: 'SUIT-Regular';
-    font-size: 30px;
-    font-weight: 600;
-    float: right;
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    
+#date-info span {
+  color: gray;
 }
-#button-group{
-    float: right;
-    margin-top: 20px;
+#song-name {
+  padding: 10px 10px 0px 10px;
+  font-family: "SUIT-Regular";
+  font-size: 1.7em;
+  font-weight: bolder;
 }
-#button-group form input{
-    color: white;
+#artist-name {
+  padding: 10px;
+  font-family: "SUIT-Regular";
+  font-size: 16px;
+  font-weight: 600;
 }
-#reset-button, #play-stop-button, #vote-button{
-    transition: 0.3s;
-    margin: 5px 5px 2px 0;
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    border: none;
-    background-color: black;
-    color: black;
+#vote-value {
+  width: 40px;
+  display: inline-block;
+  padding: 10px;
+  font-family: "SUIT-Regular";
+  font-size: 30px;
+  font-weight: 600;
+  float: right;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#button-group {
+  float: right;
+  margin-top: 20px;
+}
+#button-group form input {
+  color: white;
+}
+#reset-button,
+#play-stop-button,
+#vote-button {
+  transition: 0.3s;
+  margin: 5px 5px 2px 0;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  border: none;
+  background-color: black;
+  color: black;
 }
 
-#reset-button:hover, #play-stop-button:hover, #vote-button:hover{
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    background-color: white;
-    color: black;
+#reset-button:hover,
+#play-stop-button:hover,
+#vote-button:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: white;
+  color: black;
 }
 
-
-#state{
-    text-align: center;
-    width: 400px;
-    display: inline-block;
+#state {
+  text-align: center;
+  width: 400px;
+  display: inline-block;
 }
-#write-button{
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: inline-block;
+
+#down-btn {
+  margin-left: 200px;
+  display: inline;
+}
+#up-btn {
+  display: inline;
+}
+#updown-div {
+  display: block;
 }
